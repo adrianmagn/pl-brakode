@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Stylized portrait of Magnus">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fbff" />
+      <stop offset="100%" stop-color="#edf3fb" />
+    </linearGradient>
+    <linearGradient id="shirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#223346" />
+      <stop offset="100%" stop-color="#162333" />
+    </linearGradient>
+    <linearGradient id="hair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d5a871" />
+      <stop offset="100%" stop-color="#c89258" />
+    </linearGradient>
+  </defs>
+
+  <rect width="320" height="320" rx="36" fill="url(#bg)" />
+  <ellipse cx="162" cy="134" rx="78" ry="86" fill="#f2c9ab" />
+  <path
+    d="M92 108c4-42 33-69 74-69 43 0 71 26 78 64-15-12-34-17-61-16-46 1-65 10-91 21z"
+    fill="url(#hair)"
+  />
+  <path
+    d="M98 102c20-24 44-34 77-34 28 0 47 7 62 21-7-29-32-50-76-50-35 0-61 20-63 63z"
+    fill="#e1b57f"
+    opacity="0.65"
+  />
+  <path
+    d="M74 284c15-50 47-81 88-81 42 0 73 31 87 81H74z"
+    fill="url(#shirt)"
+  />
+  <path d="M128 211l34 40 32-40v-12h-66z" fill="#e7eef7" />
+  <path d="M138 208l24 26 22-26" fill="none" stroke="#c6d3e2" stroke-width="6" stroke-linecap="round" />
+  <rect x="95" y="116" width="54" height="40" rx="12" fill="none" stroke="#42464f" stroke-width="8" />
+  <rect x="173" y="116" width="54" height="40" rx="12" fill="none" stroke="#42464f" stroke-width="8" />
+  <path d="M149 136h24" stroke="#42464f" stroke-width="8" stroke-linecap="round" />
+  <path d="M127 136h-18M245 136h-18" stroke="#717783" stroke-width="6" stroke-linecap="round" />
+  <circle cx="122" cy="137" r="6" fill="#4a5563" />
+  <circle cx="199" cy="137" r="6" fill="#4a5563" />
+  <path d="M154 148c4 7 4 16 0 23" fill="none" stroke="#d6a78a" stroke-width="5" stroke-linecap="round" />
+  <path d="M135 171c9 9 41 9 51 0" fill="none" stroke="#c88079" stroke-width="5" stroke-linecap="round" />
+  <circle cx="105" cy="159" r="9" fill="#edbea1" />
+  <circle cx="220" cy="159" r="9" fill="#edbea1" />
+</svg>

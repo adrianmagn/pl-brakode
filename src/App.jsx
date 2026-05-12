@@ -15,11 +15,15 @@ const teams = {
   Liverpool: "#c8102e",
   "Man City": "#6cabdd",
   "Man Utd": "#da291c",
+  "Man United": "#da291c",
   Newcastle: "#f5f5f5",
   "Nott'm Forest": "#dd0000",
+  "Nottm Forest": "#dd0000",
   Sunderland: "#eb172b",
   Spurs: "#f7f7f7",
+  Tottenham: "#f7f7f7",
   "West Ham": "#7a263a",
+  "West Ham United": "#7a263a",
   Wolves: "#fdb913"
 };
 
@@ -292,6 +296,203 @@ const processSteps = [
   { step: "03", title: "Lansering og kontakt", body: "Siden blir klar til a deles, med tydelig inngang for nye henvendelser." }
 ];
 
+const playerStatsSnapshotDate = "12.05.2026";
+
+const topScorers = [
+  ["Erling Haaland", "Man City", 22, 2323],
+  ["Igor Thiago", "Brentford", 18, 2471],
+  ["Antoine Semenyo", "Bournemouth", 15, 2513],
+  ["Joao Pedro", "Chelsea", 14, 2143],
+  ["Hugo Ekitike", "Liverpool", 11, 1769]
+].map(([player, club, goals, minutes]) => ({ player, club, goals, minutes }));
+
+const topAssists = [
+  ["Bruno Fernandes", "Man United", 14, 2254],
+  ["Rayan Cherki", "Man City", 8, 1276],
+  ["Erling Haaland", "Man City", 7, 2323],
+  ["Harry Wilson", "Fulham", 6, 2086],
+  ["Jack Grealish", "Everton", 6, 1628]
+].map(([player, club, assists, minutes]) => ({ player, club, assists, minutes }));
+
+const goalsPer90Leaders = [
+  ["Erling Haaland", "Man City", 0.81, 25, 2773],
+  ["Eli Junior Kroupi", "Bournemouth", 0.75, 12, 1449],
+  ["Igor Thiago", "Brentford", 0.66, 22, 3011],
+  ["Benjamin Sesko", "Man United", 0.6, 11, 1643],
+  ["Viktor Gyokeres", "Arsenal", 0.6, 14, 2109]
+].map(([player, club, goalsPer90, goals, minutes]) => ({
+  player,
+  club,
+  goalsPer90,
+  goals,
+  minutes
+}));
+
+const mostUsedPlayers = [
+  ["Bernd Leno", "Fulham", 2790],
+  ["David Raya", "Arsenal", 2790],
+  ["Jordan Pickford", "Everton", 2790],
+  ["Martin Dubravka", "Burnley", 2790],
+  ["Virgil van Dijk", "Liverpool", 2790]
+].map(([player, club, minutes]) => ({ player, club, minutes }));
+
+const shotsOnTargetLeaders = [
+  ["Erling Haaland", "Man City", 53, 2683],
+  ["Igor Thiago", "Brentford", 41, 3011],
+  ["Antoine Semenyo", "Bournemouth", 38, 2830],
+  ["Matheus Cunha", "Man United", 32, 2240],
+  ["Benjamin Sesko", "Man United", 32, 1598]
+].map(([player, club, shotsOnTarget, minutes]) => ({
+  player,
+  club,
+  shotsOnTarget,
+  minutes
+}));
+
+const goalContributionsPer90Leaders = [
+  ["Erling Haaland", "Man City", 1.04, 32, 2773],
+  ["Bruno Fernandes", "Man United", 0.87, 27, 2793],
+  ["Rayan Cherki", "Man City", 0.82, 15, 1646],
+  ["Hugo Ekitike", "Liverpool", 0.75, 15, 1803],
+  ["Eli Junior Kroupi", "Bournemouth", 0.75, 12, 1449]
+].map(([player, club, contributionsPer90, contributions, minutes]) => ({
+  player,
+  club,
+  contributionsPer90,
+  contributions,
+  minutes
+}));
+
+const playerStatGroups = [
+  {
+    id: "scorers",
+    kicker: "Spillerstatistikk",
+    title: "Toppscorer hittil",
+    badge: "Topp 5",
+    columns: ["#", "Spiller", "Klubb", "Mål", "Min"],
+    rows: topScorers,
+    note:
+      "Snapshot av toppscorerlisten med spilte minutter ved siden av, så det blir lettere å lese volum mot produksjon.",
+    sourceLabel: "Statbunker toppscorer",
+    sourceHref: "https://www.statbunker.com/competitions/TopStrikers?comp_id=776",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.goals}</td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  },
+  {
+    id: "assists",
+    kicker: "Spillerstatistikk",
+    title: "Flest målgivende",
+    badge: "Topp 5",
+    columns: ["#", "Spiller", "Klubb", "A", "Min"],
+    rows: topAssists,
+    note:
+      "Ren assist-visning for å få playmakerne fram uten at de drukner i lagtabellene lenger ned.",
+    sourceLabel: "StatMuse assists",
+    sourceHref: "https://www.statmuse.com/fc/ask/premier-league-player-most-assists-2026-per-min",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.assists}</td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  },
+  {
+    id: "goals-per-90",
+    kicker: "Effektivitet",
+    title: "Best mål per 90",
+    badge: "Minst 30 min per lagkamp",
+    columns: ["#", "Spiller", "Klubb", "G/90", "Mål", "Min"],
+    rows: goalsPer90Leaders,
+    note:
+      "Denne listen viser hvem som faktisk er mest kliniske, ikke bare hvem som har spilt flest minutter og rukket flest avslutninger.",
+    sourceLabel: "StatMuse mål per 90",
+    sourceHref: "https://www.statmuse.com/fc/ask?q=most+goals+per+90+premier+league+25-26+season",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.goalsPer90.toFixed(2)}</td>
+        <td>{item.goals}</td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  },
+  {
+    id: "minutes",
+    kicker: "Belastning",
+    title: "Mest brukte spillere",
+    badge: "Minutter",
+    columns: ["#", "Spiller", "Klubb", "Min"],
+    rows: mostUsedPlayers,
+    note:
+      "En enkel slitestyrke-liste som viser hvem som nesten aldri tas av og i praksis bærer kampene uke etter uke.",
+    sourceLabel: "StatMuse minutter",
+    sourceHref: "https://www.statmuse.com/fc/ask/most-minutes-played-in-premier-league",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  },
+  {
+    id: "shots-on-target",
+    kicker: "Volum",
+    title: "Flest skudd på mål",
+    badge: "Topp 5",
+    columns: ["#", "Spiller", "Klubb", "SOT", "Min"],
+    rows: shotsOnTargetLeaders,
+    note:
+      "Skudd på mål fungerer fint som en rask proxy for hvor mye trussel en spiller faktisk skaper, selv når målene ikke tikker inn.",
+    sourceLabel: "StatMuse skudd på mål",
+    sourceHref: "https://www.statmuse.com/fc/ask?q=most+shots+on+target+per+player+premier+league+2025%2F2026",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.shotsOnTarget}</td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  },
+  {
+    id: "goal-contributions-per-90",
+    kicker: "Produksjon",
+    title: "Målbidrag per 90",
+    badge: "Mål + assist",
+    columns: ["#", "Spiller", "Klubb", "G+A/90", "G+A", "Min"],
+    rows: goalContributionsPer90Leaders,
+    note:
+      "Kombinerer scoring og tilrettelegging i ett tall. Dette er ofte den beste raske listen for hvem som skaper mest sluttprodukt akkurat nå.",
+    sourceLabel: "StatMuse målbidrag per 90",
+    sourceHref: "https://www.statmuse.com/fc/ask?l=pl&q=most+goal+contributions+per+90+in+2025-26",
+    renderRow: (item, index) => (
+      <tr key={`${item.player}-${item.club}`}>
+        <td>{index + 1}</td>
+        <td>{item.player}</td>
+        <td><TeamBadge team={item.club} /></td>
+        <td>{item.contributionsPer90.toFixed(2)}</td>
+        <td>{item.contributions}</td>
+        <td>{item.minutes.toLocaleString("nb-NO")}</td>
+      </tr>
+    )
+  }
+];
+
 const contactSubject = encodeURIComponent("Kontakt fra brakode.dev");
 const contactBody = encodeURIComponent(
   "Hei Brakode,%0D%0A%0D%0AJeg vil gjerne ta kontakt om en nettside.%0D%0A%0D%0AMvh"
@@ -375,11 +576,34 @@ function StatTable({ columns, rows, renderRow }) {
   );
 }
 
+function PlayerStatCard({ stat }) {
+  return (
+    <article className="pl-panel">
+      <div className="pl-section-head">
+        <div>
+          <p className="pl-kicker">{stat.kicker}</p>
+          <h2>{stat.title}</h2>
+        </div>
+        <span>{stat.badge}</span>
+      </div>
+      <StatTable columns={stat.columns} rows={stat.rows} renderRow={stat.renderRow} />
+      <p className="pl-helper">{stat.note}</p>
+      <p className="pl-source-note">
+        Snapshot {playerStatsSnapshotDate} fra{" "}
+        <a href={stat.sourceHref} target="_blank" rel="noreferrer">
+          {stat.sourceLabel}
+        </a>
+        .
+      </p>
+    </article>
+  );
+}
+
 function PlApp() {
   usePageMeta({
     title: "Statistikk PL 25/26",
     description:
-      "Premier League 2025/26-statistikk for løpsdistanse, xG, skadebelastning og managerdager.",
+      "Premier League 2025/26-statistikk for spillerproduksjon, løpsdistanse, xG, skadebelastning og managerdager.",
     image: "https://brakode.dev/brakode-og.png",
     url: "https://pl.brakode.dev/"
   });
@@ -389,6 +613,10 @@ function PlApp() {
   const topInjury = injuryStats[0];
   const longestManager = managerStats[0];
   const maxInjuryDays = Math.max(...injuryStats.map((item) => item.days));
+  const goalLeader = topScorers[0];
+  const assistLeader = topAssists[0];
+  const efficiencyLeader = goalsPer90Leaders[0];
+  const minutesLeader = mostUsedPlayers[0];
 
   return (
     <main className="pl-page">
@@ -397,34 +625,40 @@ function PlApp() {
           <p className="pl-kicker">pl.brakode.dev</p>
           <h1>Statistikk PL 25/26</h1>
           <p>
-            En mørk, tabelltung Premier League-flate for løping, xG, skader og
-            managerslitasje. Tallene er strukturert slik at de kan byttes til en
-            automatisk scrape-feed senere.
+            En mørk, tabelltung Premier League-flate for spillerproduksjon,
+            løping, xG, skader og managerslitasje. Tallene er strukturert slik
+            at de kan byttes til en automatisk scrape-feed senere.
           </p>
         </div>
 
         <div className="pl-scoreboard" aria-label="Nøkkeltall">
           <article>
-            <span>Løper mest</span>
-            <strong>{topRunner.team}</strong>
-            <small>{topRunner.averageKm} km/kamp</small>
+            <span>Toppscorer</span>
+            <strong>{goalLeader.player}</strong>
+            <small>{goalLeader.goals} mål</small>
           </article>
           <article>
-            <span>Høyest xG</span>
-            <strong>{topXg.team}</strong>
-            <small>{topXg.xg} xG</small>
+            <span>Flest assists</span>
+            <strong>{assistLeader.player}</strong>
+            <small>{assistLeader.assists} målgivende</small>
           </article>
           <article>
-            <span>Skadedager</span>
-            <strong>{topInjury.team}</strong>
-            <small>{topInjury.days} dager</small>
+            <span>Best mål per 90</span>
+            <strong>{efficiencyLeader.player}</strong>
+            <small>{efficiencyLeader.goalsPer90.toFixed(2)} G/90</small>
           </article>
           <article>
-            <span>Lengst i stolen</span>
-            <strong>{longestManager.manager}</strong>
-            <small>{longestManager.days.toLocaleString("nb-NO")} dager</small>
+            <span>Flest minutter</span>
+            <strong>{minutesLeader.player}</strong>
+            <small>{minutesLeader.minutes.toLocaleString("nb-NO")} min</small>
           </article>
         </div>
+      </section>
+
+      <section className="pl-player-grid">
+        {playerStatGroups.map((stat) => (
+          <PlayerStatCard key={stat.id} stat={stat} />
+        ))}
       </section>
 
       <section className="pl-grid">
@@ -664,7 +898,7 @@ function PlApp() {
           </ul>
           <p className="pl-helper">
             Kildene underbygger løpsdata, xG-familien, skadeoversikten,
-            pressing-snapshoten og managerlisten.
+            pressing-snapshoten, managerlisten og spilleroversiktene.
           </p>
           <p className="pl-note">
             xG kan hentes direkte fra tabell. Løpssnitt finnes offentlig i PLs
@@ -674,7 +908,9 @@ function PlApp() {
             nyere rapporter har fortsatt Spurs øverst. xGD, xPTS-gap og mål mot
             xG fungerer fint uten backend som periodiske snapshots. PPDA er den
             klareste kandidaten for en liten backend/cron-feed hvis vi vil holde
-            den automatisk fersk og komplett.
+            den automatisk fersk og komplett. Spillerlistene er lagt inn som et
+            snapshot med tall fra StatMuse og Statbunker, og per-90-listene
+            bruker terskel på minst 30 minutter per lagkamp.
           </p>
         </article>
       </section>
@@ -902,6 +1138,10 @@ export default function App() {
       : null;
 
   const preview = params?.get("preview");
+  const isLocalPreview =
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "0.0.0.0";
   const isMagnus =
     host === "magnus.brakode.dev" ||
     host.startsWith("magnus.") ||
@@ -913,7 +1153,8 @@ export default function App() {
   const isPl =
     host === "pl.brakode.dev" ||
     host.startsWith("pl.") ||
-    preview === "pl";
+    preview === "pl" ||
+    (isLocalPreview && !preview);
 
   if (isMagnus) {
     return <MagnusApp />;

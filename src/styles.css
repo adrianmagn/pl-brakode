@@ -171,6 +171,14 @@ h3 {
   gap: 16px;
 }
 
+.pl-player-grid {
+  width: min(1440px, 100%);
+  margin: 0 auto 16px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
 .pl-panel {
   border-radius: 8px;
   padding: 18px;
@@ -205,6 +213,10 @@ h3 {
   min-width: 720px;
   border-collapse: collapse;
   font-size: 0.92rem;
+}
+
+.pl-player-grid .pl-table {
+  min-width: 0;
 }
 
 .pl-table th {
@@ -372,6 +384,20 @@ h3 {
   color: rgba(247, 254, 231, 0.62);
   font-size: 0.78rem;
   line-height: 1.55;
+}
+
+.pl-source-note {
+  margin: 10px 0 0;
+  color: rgba(184, 242, 63, 0.74);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.pl-source-note a {
+  color: #f7fee7;
+  text-decoration: underline;
+  text-decoration-color: rgba(184, 242, 63, 0.54);
+  text-underline-offset: 0.18em;
 }
 
 .source-list {
@@ -1046,6 +1072,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .pl-player-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .brakode-hero,
   .brakode-offers,
   .brakode-lower,
@@ -1076,6 +1106,10 @@ h3 {
 
   .pl-scoreboard article {
     min-height: 118px;
+  }
+
+  .pl-player-grid {
+    grid-template-columns: 1fr;
   }
 
   .injury-row {
